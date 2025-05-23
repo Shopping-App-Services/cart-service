@@ -14,14 +14,32 @@
 
 # https://mcr.microsoft.com/v2/dotnet/sdk/tags/list
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS builder
+
 WORKDIR /app
-COPY src/cartservice.csproj .
-RUN dotnet nuget locals all --clear
-RUN dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
-RUN dotnet restore cartservice.csproj -r linux-x64 --verbosity detailed
-COPY src/ ./src/
+
+# Copy only .csproj and restore dependencies
+COPY src/cartservice.csproj ./src/
 WORKDIR /app/src
-RUN dotnet publish cartservice.csproj -p:PublishSingleFile=true -r linux-x64 --self-contained true -p:PublishTrimmed=True -p:TrimMode=Link -c release -o /cartservice --no-restore
+
+# Clear potential cache issues
+RUN dotnet nuget locals all --clear
+
+# Restore packages with verbose output
+RUN dotnet restore -r linux-x64 --verbosity detailed
+
+# Copy the full source
+COPY src/ .
+
+# Publish the app
+RUN dotnet publish cartservice.csproj \
+    -p:PublishSingleFile=true \
+    -r linux-x64 \
+    --self-contained true \
+    -p:PublishTrimmed=True \
+    -p:TrimMode=Link \
+    -c release \
+    -o /cartservice \
+    --no-restore
 
 # https://mcr.microsoft.com/v2/dotnet/runtime-deps/tags/list
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS without-grpc-health-probe-bin
