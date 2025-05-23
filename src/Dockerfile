@@ -24,7 +24,7 @@ RUN dotnet restore /app/cartservice.csproj -r linux-musl-x64
 
 COPY src/ ./src/
 RUN echo "Current dir after restored: $(pwd)" && ls -latr
-RUN echo "Tree: $(pwd)" && tree
+
 RUN dotnet publish cartservice.csproj -p:PublishSingleFile=true -r linux-musl-x64 --self-contained true -p:PublishTrimmed=True -p:TrimMode=Link -c release -o /cartservice --no-restore
 
 
