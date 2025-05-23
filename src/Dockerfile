@@ -21,9 +21,6 @@ WORKDIR /app
 COPY src/cartservice.csproj ./src/
 WORKDIR /app/src
 
-# Clear potential cache issues
-RUN dotnet nuget locals all --clear
-
 # Restore packages with verbose output
 RUN dotnet restore -r linux-x64 --verbosity detailed
 
