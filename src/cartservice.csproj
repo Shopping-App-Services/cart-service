@@ -14,9 +14,11 @@
     <PackageReference Include="Google.Cloud.Spanner.Data" Version="4.5.0" />
     <PackageReference Include="Npgsql" Version="7.0.4" />
     <PackageReference Include="Google.Cloud.SecretManager.V1" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="protos\Cart.proto" GrpcServices="Both" />
+
+  <Protobuf Include="protos/Cart.proto" GrpcServices="Both" />
   </ItemGroup>
 </Project>
