@@ -16,7 +16,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS builder
 WORKDIR /app
 COPY src/cartservice.csproj .
-RUN dotnet restore cartservice.csproj -r linux-x64
+RUN dotnet nuget locals all --clear
+RUN dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
+RUN dotnet restore cartservice.csproj -r linux-x64 --verbosity detailed
 COPY src/ ./src/
 WORKDIR /app/src
 RUN dotnet publish cartservice.csproj -p:PublishSingleFile=true -r linux-x64 --self-contained true -p:PublishTrimmed=True -p:TrimMode=Link -c release -o /cartservice --no-restore
