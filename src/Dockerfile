@@ -16,10 +16,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS builder
 WORKDIR /app
 COPY src/cartservice.csproj .
-RUN dotnet restore cartservice.csproj -r linux-musl-x64
+RUN dotnet restore cartservice.csproj -r -r linux-x64
 COPY src/ ./src/
 WORKDIR /app/src
-RUN dotnet publish cartservice.csproj -p:PublishSingleFile=true -r linux-musl-x64 --self-contained true -p:PublishTrimmed=True -p:TrimMode=Link -c release -o /cartservice --no-restore
+RUN dotnet publish cartservice.csproj -p:PublishSingleFile=true -r -r linux-x64 --self-contained true -p:PublishTrimmed=True -p:TrimMode=Link -c release -o /cartservice --no-restore
 
 # https://mcr.microsoft.com/v2/dotnet/runtime-deps/tags/list
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS without-grpc-health-probe-bin
