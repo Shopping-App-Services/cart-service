@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-<RuntimeIdentifier>linux-musl-x64</RuntimeIdentifier>
+    <RuntimeIdentifier>linux-musl-x64</RuntimeIdentifier>
+     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
