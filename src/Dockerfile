@@ -17,12 +17,14 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS builder
 
 WORKDIR /app
 COPY src/cartservice.csproj .
+
+RUN echo "Current dir: $(pwd)" && ls -R
+
 RUN dotnet restore /app/cartservice.csproj -r linux-musl-x64
 
 COPY src/ ./src/
+RUN echo "Current dir: $(pwd)" && ls -R
 
-
-RUN echo ls -latr
 RUN dotnet publish ../cartservice.csproj -p:PublishSingleFile=true -r linux-musl-x64 --self-contained true -p:PublishTrimmed=True -p:TrimMode=Link -c release -o /cartservice --no-restore
 
 
